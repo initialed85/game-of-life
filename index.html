@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Game of Life</title>
+
+  <style>
+    body {
+      font-family: Tahoma;
+    }
+  </style>
+
+  <script type="module">
+    import init from './out/game-of-life.js'
+
+    init().catch((error) => {
+      if (!error.message.startsWith("Using exceptions for control flow, don't mind me. This isn't actually an error!")) {
+        throw error;
+      }
+    });
+  </script>
+</head>
+
+<body style="margin: 0px;">
+  <canvas id="game-of-life-canvas" width="1280" height="800" style="padding: 1px"></canvas>
+  <ul style="margin-top: 5px; margin-left: 0px; padding-left: 30px;">
+    <li>Left click = Toggle live state for cell</li>
+    <li>Space = Unpause / pause</li>
+    <li>R = Reset</li>
+  </ul>
+</body>
+
+</html>

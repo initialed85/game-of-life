@@ -206,7 +206,13 @@ pub fn run() {
     let universe = Universe::default();
 
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: Some(Window {
+                canvas: Some("#game-of-life-canvas".into()),
+                ..default()
+            }),
+            ..default()
+        }))
         .add_systems(Startup, setup)
         .add_systems(Update, handle_universe_sync)
         .add_systems(Update, handle_cell_click)
@@ -216,7 +222,7 @@ pub fn run() {
         .insert_resource(ClearColor(Color::rgb(0.125, 0.125, 0.125)))
         .insert_non_send_resource(Rc::new(RefCell::new(universe)))
         .insert_resource(UniverseTickTimer(Timer::from_seconds(
-            0.0000001,
+            0.001,
             TimerMode::Repeating,
         )))
         .run();
