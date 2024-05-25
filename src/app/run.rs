@@ -64,9 +64,11 @@ fn setup(
                 (i as f32 * POLYGON_DIMENSION * 2.0) - (height / 2.0) + (POLYGON_DIMENSION * 1.75);
 
             let material_mesh_2d_bundle = MaterialMesh2dBundle {
-                mesh: meshes
-                    .add(shape::RegularPolygon::new(POLYGON_DIMENSION, POLYGON_SIDES).into())
-                    .into(),
+                mesh: bevy::sprite::Mesh2dHandle(meshes.add(
+                    <bevy::prelude::RegularPolygon as std::convert::Into<Mesh>>::into(
+                        bevy::math::prelude::RegularPolygon::new(POLYGON_DIMENSION, POLYGON_SIDES),
+                    ),
+                )),
                 material: materials.add(ColorMaterial::from(Color::DARK_GRAY)),
                 transform: Transform::from_translation(Vec3::new(x, y, 0.0))
                     .with_rotation(Quat::from_rotation_z(POLYGON_ROTATION_DEGREES.to_radians())),
@@ -116,7 +118,7 @@ fn handle_cell_sync(
 fn handle_cell_click(
     q_windows: Query<&Window, With<PrimaryWindow>>,
     mut q_transforms_for_cells: Query<(&Transform, &mut Cell), With<Cell>>,
-    buttons: Res<Input<MouseButton>>,
+    buttons: Res<ButtonInput<MouseButton>>,
     wrapped_universe: NonSend<Rc<RefCell<Universe>>>,
     time: Res<Time>,
 ) {
@@ -190,10 +192,10 @@ fn handle_universe_tick(
     universe.tick();
 }
 
-fn handle_reset(keys: Res<Input<KeyCode>>, wrapped_universe: NonSend<Rc<RefCell<Universe>>>) {
+fn handle_reset(keys: Res<ButtonInput<KeyCode>>, wrapped_universe: NonSend<Rc<RefCell<Universe>>>) {
     let mut universe = wrapped_universe.as_ref().borrow_mut();
 
-    if keys.just_pressed(KeyCode::R) {
+    if keys.just_pressed(KeyCode::KeyR) {
         universe.reset();
     }
 
