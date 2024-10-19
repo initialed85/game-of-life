@@ -1,4 +1,4 @@
-FROM rust:1.77.1-slim-bullseye AS builder
+FROM --platform=linux/arm64 rust:1.80.1-slim-bullseye AS builder
 
 RUN rustup target install wasm32-unknown-unknown
 RUN cargo install wasm-bindgen-cli

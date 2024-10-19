@@ -24,9 +24,6 @@ CARGO_TARGET_WASM32_UNKNOWN_UNKNOWN_RUNNER=wasm-server-runner cargo run --target
 ```shell
 cargo install -f wasm-bindgen-cli
 cargo build --release --target wasm32-unknown-unknown
-wasm-bindgen --no-typescript --target web \
-    --out-dir ./out/ \
-    --out-name "game-of-life" \
-    ./target/wasm32-unknown-unknown/release/game-of-life.wasm
+wasm-bindgen --no-typescript --target web --out-dir ./out/ --out-name "game-of-life" ./target/wasm32-unknown-unknown/release/game-of-life.wasm
 devserver
 ```
